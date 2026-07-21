@@ -84,13 +84,13 @@ pom.xml config
     <snapshotRepository>
         <id>nexus-snapshots</id>
         <name>Nexus Snapshot Repository</name>
-        <url>http://10.160.0.5:8081/repository/maven-snapshots/</url>
+        <url>http://10.128.0.17:8081/repository/maven-snapshots/</url>
     </snapshotRepository>
 
     <repository>
         <id>nexus-releases</id>
         <name>Nexus Release Repository</name>
-        <url>http://10.160.0.5:8081/repository/maven-releases/</url>
+        <url>http:/10.128.0.17:8081/repository/maven-releases/</url>
     </repository>
 </distributionManagement>
 
