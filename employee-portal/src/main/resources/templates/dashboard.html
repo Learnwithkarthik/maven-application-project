@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Portal - Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" th:href="@{/dashboard}">Employee Portal</a>
+    <nav>
+        <a class="active" th:href="@{/dashboard}">Dashboard</a>
+        <a th:href="@{/employees}">Employees</a>
+        <a class="logout-link" th:href="@{/logout}">Logout</a>
+    </nav>
+</header>
+
+<main class="page-container">
+    <section class="welcome-banner">
+        <div>
+            <span class="eyebrow">MAVEN DEMO APPLICATION</span>
+            <h1>Welcome, <span th:text="${username}">admin</span></h1>
+            <p>This dashboard is running from a Spring Boot executable JAR.</p>
+        </div>
+        <div class="version-pill">
+            <span>Application version</span>
+            <strong th:text="${applicationVersion}">1.0.0-SNAPSHOT</strong>
+        </div>
+    </section>
+
+    <section class="stats-grid">
+        <article class="stat-card">
+            <span>Total Employees</span>
+            <strong th:text="${totalEmployees}">5</strong>
+            <small>Registered employees</small>
+        </article>
+
+        <article class="stat-card">
+            <span>Active Employees</span>
+            <strong th:text="${activeEmployees}">4</strong>
+            <small>Currently active</small>
+        </article>
+
+        <article class="stat-card">
+            <span>Projects</span>
+            <strong th:text="${projects}">6</strong>
+            <small>Projects in progress</small>
+        </article>
+
+        <article class="stat-card">
+            <span>Open Tickets</span>
+            <strong th:text="${openTickets}">8</strong>
+            <small>Awaiting action</small>
+        </article>
+    </section>
+
+    <section class="content-grid">
+        <article class="panel">
+            <div class="panel-heading">
+                <div>
+                    <h2>Maven Build Flow</h2>
+                    <p>How this application becomes a deployable artifact.</p>
+                </div>
+            </div>
+
+            <div class="pipeline">
+                <div><strong>1</strong><span>Validate</span></div>
+                <div><strong>2</strong><span>Compile</span></div>
+                <div><strong>3</strong><span>Test</span></div>
+                <div><strong>4</strong><span>Package</span></div>
+                <div><strong>5</strong><span>Deploy</span></div>
+            </div>
+        </article>
+
+        <article class="panel environment-panel">
+            <h2>Runtime Information</h2>
+            <dl>
+                <div><dt>Environment</dt><dd th:text="${environment}">Development</dd></div>
+                <div><dt>Artifact</dt><dd>Executable JAR</dd></div>
+                <div><dt>Framework</dt><dd>Spring Boot</dd></div>
+                <div><dt>Build Tool</dt><dd>Apache Maven</dd></div>
+            </dl>
+        </article>
+    </section>
+</main>
+
+<footer>
+    Employee Portal · Maven learning project
+</footer>
+</body>
+</html>

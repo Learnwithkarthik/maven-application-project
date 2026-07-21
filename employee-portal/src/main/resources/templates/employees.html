@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Portal - Employees</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" th:href="@{/dashboard}">Employee Portal</a>
+    <nav>
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a class="active" th:href="@{/employees}">Employees</a>
+        <a class="logout-link" th:href="@{/logout}">Logout</a>
+    </nav>
+</header>
+
+<main class="page-container">
+    <section class="page-heading">
+        <div>
+            <span class="eyebrow">EMPLOYEE MANAGEMENT</span>
+            <h1>Employees</h1>
+            <p>Sample in-memory data used by the Maven demo application.</p>
+        </div>
+        <div class="version-pill">
+            <span>Version</span>
+            <strong th:text="${applicationVersion}">1.0.0-SNAPSHOT</strong>
+        </div>
+    </section>
+
+    <section class="panel table-panel">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="employee : ${employees}">
+                    <td th:text="${employee.employeeId()}">EMP001</td>
+                    <td th:text="${employee.name()}">Name</td>
+                    <td th:text="${employee.department()}">Department</td>
+                    <td th:text="${employee.email()}">email@example.com</td>
+                    <td>
+                        <span class="status"
+                              th:classappend="${employee.status() == 'Active'} ? ' active-status' : ' inactive-status'"
+                              th:text="${employee.status()}">Active</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<footer>
+    Employee Portal · Maven learning project
+</footer>
+</body>
+</html>
