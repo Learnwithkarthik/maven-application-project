@@ -1,5 +1,9 @@
 # maven-application-project
 
+mkdir -p ~/.m2
+nano ~/.m2/settings.xml
+
+
 settings.xml
 
 
