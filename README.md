@@ -245,3 +245,24 @@ public class BadCodeService {
         return "Karthikeya".equals(employeeName);
     }
 }
+
+
+
+
+| Bug type                             | Example                                        | Possible impact            |
+| ------------------------------------ | ---------------------------------------------- | -------------------------- |
+| Null pointer risk                    | Calling a method on a value that may be `null` | Application crash          |
+| Incorrect string comparison          | `name == "admin"`                              | Wrong condition result     |
+| Resource leak                        | File or database connection not closed         | Memory/resource exhaustion |
+| Infinite loop                        | Loop condition never becomes false             | Application hangs          |
+| Unreachable or always-true condition | `if (x > 10 && x < 5)`                         | Incorrect program logic    |
+| Identical branches                   | `if` and `else` return the same value          | Logic mistake              |
+| Wrong exception handling             | Empty `catch` block                            | Failure is hidden          |
+| Incorrect collection usage           | Modifying a collection while iterating         | Runtime exception          |
+| Unsafe `Optional` usage              | Calling `optional.get()` without checking      | `NoSuchElementException`   |
+| Ignored return value                 | Ignoring a method result that must be checked  | Incorrect execution        |
+| Division-related problem             | Possible division by zero                      | Runtime exception          |
+| Incorrect equality/hash logic        | `equals()` and `hashCode()` inconsistent       | Wrong collection behaviour |
+| Thread-safety problem                | Shared mutable data used unsafely              | Inconsistent results       |
+| Improper type conversion             | Unsafe cast                                    | `ClassCastException`       |
+
