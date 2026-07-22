@@ -248,6 +248,26 @@ public class BadCodeService {
 
 
 
+| Section                      | What it shows                                                                               | Why it is important                                                                               | What you should demonstrate                                                     |
+| ---------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| **Overview**                 | Overall project health and latest analysis summary                                          | Gives a quick answer to whether the project is ready to proceed                                   | Show Quality Gate status, issues, coverage and duplication                      |
+| **Issues**                   | Detailed list of detected reliability, security and maintainability problems                | Helps developers identify the exact file, line and rule that needs attention                      | Open an issue, show the affected line and explain the recommended fix           |
+| **Security Hotspots**        | Security-sensitive code that requires manual review                                         | Some code may be risky depending on how it is used, even when it is not a confirmed vulnerability | Open a hotspot and explain why a developer or security reviewer must inspect it |
+| **Measures**                 | Detailed metrics for reliability, security, maintainability, coverage, duplication and size | Helps teams understand the project beyond a simple pass/fail result                               | Compare new-code and overall-code measurements                                  |
+| **Code**                     | Source-code structure, folders, files and metrics for individual files                      | Helps locate which package, class or file is contributing most to the problems                    | Open the intentionally bad Java file and show its issues                        |
+| **Activity**                 | History of previous analyses and metric changes over time                                   | Shows whether code quality is improving or becoming worse                                         | Compare the baseline scan, bad-code scan and fixed-code scan                    |
+| **Project Information**      | Project key, main branch and analysis-related information                                   | Helps confirm which project and branch were analyzed                                              | Show the project key used in the Maven command                                  |
+| **Project Settings**         | Configuration for analysis, new code, permissions, integrations and exclusions              | Controls how SonarQube analyzes and evaluates the project                                         | Show the New Code definition and assigned Quality Gate                          |
+| **Quality Gate**             | Final pass/fail decision based on configured quality conditions                             | Prevents poor-quality code from moving further through CI/CD                                      | Show the failed condition after adding bad code                                 |
+| **Quality Profile**          | The collection of analysis rules enabled for a programming language                         | Determines which coding problems SonarQube searches for                                           | Explain that Java rules and Python rules are separate                           |
+| **Branches / Pull Requests** | Analysis results for different branches or pull requests                                    | Helps prevent bad code from being merged into the main branch                                     | Explain how a feature branch can be checked before merge                        |
+| **Administration**           | Server-wide settings, users, permissions, plugins and system configuration                  | Required for operating and securing the SonarQube platform                                        | Explain this as an administrator section, not a normal developer section        |
+
+
+
+
+
+
 
 | Bug type                             | Example                                        | Possible impact            |
 | ------------------------------------ | ---------------------------------------------- | -------------------------- |
