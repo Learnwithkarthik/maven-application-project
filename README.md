@@ -293,6 +293,10 @@ public class BadCodeService {
 DevSecOps
 ###########################################################
 
+#########################################################
+SAST
+#########################################################
+
 semgrep workflow
 
 Existing Maven application
@@ -466,5 +470,52 @@ semgrep scan \
   --sarif \
   --output security-reports/semgrep-report.sarif \
   src/main/java
+
+####################################
+DAST
+######################################
+
+| Semgrep                        | OWASP ZAP                         |
+| ------------------------------ | --------------------------------- |
+| Reads Java source code         | Tests the running URL             |
+| Application need not run       | Application must be running       |
+| Finds insecure coding patterns | Finds runtime web vulnerabilities |
+| Used before build/deployment   | Used after deployment             |
+| White-box testing              | Black-box testing                 |
+
+
+Workflow:
+
+1. Build Maven application
+2. Start the application on port 8080
+3. Verify the login page
+4. Run ZAP baseline scan
+5. Generate HTML report
+6. Show missing security headers
+7. Fix headers in Spring Boot
+8. Restart application
+9. Run ZAP again
+10. Compare reports
+
+
+sudo apt-get update
+sudo apt-get install -y docker.io
+
+sudo systemctl enable --now docker
+
+
+cd ~/maven-application-project/employee-portal
+
+mkdir -p zap-reports
+chmod 777 zap-reports
+
+
+sudo docker run --rm \
+  --network host \
+  -v "$(pwd)/zap-reports:/zap/wrk:rw" \
+  ghcr.io/zaproxy/zaproxy:stable \
+  zap-baseline.py \
+  -t http://127.0.0.1:8080 \
+  -r zap-baseline-report.html
 
 
