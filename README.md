@@ -286,3 +286,185 @@ public class BadCodeService {
 | Thread-safety problem                | Shared mutable data used unsafely              | Inconsistent results       |
 | Improper type conversion             | Unsafe cast                                    | `ClassCastException`       |
 
+
+
+
+###########################################################
+DevSecOps
+###########################################################
+
+semgrep workflow
+
+Existing Maven application
+        ↓
+Run Semgrep baseline scan
+        ↓
+Add intentionally insecure Java code
+        ↓
+Run Semgrep and show findings
+        ↓
+Fix the code
+        ↓
+Run Semgrep again
+        ↓
+Scan passes
+
+
+Static Application Security Testing
+
+Java source code
+      ↓
+Semgrep rules
+      ↓
+Security findings
+
+sudo apt-get update
+sudo apt-get install -y python3 python3-pip python3-venv
+
+python3 -m venv ~/semgrep-venv
+
+source ~/semgrep-venv/bin/activate
+
+pip install --upgrade pip
+pip install semgrep
+
+semgrep --version
+
+source ~/semgrep-venv/bin/activate
+
+semgrep scan --config auto .
+
+mkdir -p semgrep-rules
+
+nano semgrep-rules/java-security.yml
+
+rules:
+  - id: java-runtime-command-execution
+    languages:
+      - java
+    severity: ERROR
+    message: >
+      User-controlled or dynamic data is being passed to
+      Runtime.exec(). This can lead to command injection.
+    metadata:
+      category: security
+      technology:
+        - java
+      cwe:
+        - "CWE-78: Improper Neutralization of Special Elements used in an OS Command"
+    patterns:
+      - pattern: Runtime.getRuntime().exec($COMMAND)
+
+  - id: java-hardcoded-password
+    languages:
+      - java
+    severity: WARNING
+    message: >
+      A password appears to be hardcoded in Java source code.
+      Store credentials outside the source code.
+    metadata:
+      category: security
+      cwe:
+        - "CWE-798: Use of Hard-coded Credentials"
+    pattern-regex: '(?i)(password|passwd|pwd)\s*=\s*"[^"]+"'
+
+  - id: java-sql-string-concatenation
+    languages:
+      - java
+    severity: ERROR
+    message: >
+      SQL query is constructed using string concatenation.
+      Use a prepared statement with parameters.
+    metadata:
+      category: security
+      cwe:
+        - "CWE-89: SQL Injection"
+    patterns:
+      - pattern-either:
+          - pattern: |
+              String $QUERY = "SELECT ..." + $INPUT;
+          - pattern: |
+              String $QUERY = "SELECT ..." + $INPUT + ...;
+
+
+
+semgrep scan \
+  --config semgrep-rules/java-security.yml \
+  .
+
+
+
+  mkdir -p src/main/java/com/example/employeeportal/securitydemo
+
+  nano src/main/java/com/example/employeeportal/securitydemo/InsecureDemoController.java
+
+  package com.example.employeeportal.securitydemo;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
+
+@RestController
+public class InsecureDemoController {
+
+    private final String databasePassword = "Admin@123";
+
+    @GetMapping("/security-demo/command")
+    public String executeCommand(
+            @RequestParam String command
+    ) throws IOException {
+
+        Process process = Runtime.getRuntime().exec(command);
+
+        return "Command started with process ID: " + process.pid();
+    }
+
+    @GetMapping("/security-demo/query")
+    public String createQuery(
+            @RequestParam String employeeName
+    ) {
+
+        String query =
+                "SELECT * FROM employees WHERE name = '" +
+                employeeName +
+                "'";
+
+        return query;
+    }
+
+    @GetMapping("/security-demo/password")
+    public String showPasswordStatus() {
+        return "Configured password length: " +
+                databasePassword.length();
+    }
+}
+
+
+semgrep scan \
+  --config semgrep-rules/java-security.yml \
+  src/main/java
+
+
+mkdir -p security-reports
+semgrep scan \
+  --config semgrep-rules/java-security.yml \
+  --json \
+  --output security-reports/semgrep-report.json \
+  src/main/java
+
+ls -lh security-reports/
+
+cat security-reports/semgrep-report.json
+
+sudo apt-get install -y jq
+
+jq . security-reports/semgrep-report.json
+semgrep scan \
+  --config semgrep-rules/java-security.yml \
+  --sarif \
+  --output security-reports/semgrep-report.sarif \
+  src/main/java
+
+
